@@ -36,12 +36,6 @@ echo "[+] Setting up SublimeText"
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add -
 echo "deb https://download.sublimetext.com/ apt/stable/" | tee -a /etc/apt/sources.list.d/sublime-text.list
 apt-get install -y sublime-text > /dev/null
-echo "[+] Setting up Datasploit"
-git clone https://github.com/DataSploit/datasploit.git /usr/share/datasploit/> /dev/null
-curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o /home/kali/get-pip.py
-python2 /home/kali/get-pip.py
-pip2 install -r /usr/share/datasploit/requirements.txt
-ln -s /usr/share/datasploit/datasploit.py /usr/local/bin/datasploit | tee -a /home/kali/.profile
 echo "[+] Setting up Eyewitness"
 apt-get install -y eyewitness > /dev/null
 echo "[+] Setting up Sublist3r"
