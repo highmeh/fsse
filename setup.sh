@@ -41,11 +41,15 @@ cp /usr/share/lure/resources/config.sample.py /usr/share/lure/resources/config.p
 echo "[+] Setting up SublimeText"
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 echo "deb https://download.sublimetext.com/ apt/stable/" | tee /etc/apt/sources.list.d/sublime-text.list
-sudo apt-get update
+sudo apt-get update -y > /dev/null 2>&1
 apt-get install -y -qq sublime-text > /dev/null 2>&1
+ln -s /opt/sublime_text/sublime_text /usr/local/bin/sublimetext | tee -a /home/kali/.zshrc
 
 echo "[+] Setting up Eyewitness"
 apt-get install -y -qq eyewitness > /dev/null 2>&1
+
+echo "[+] Setting up Inkscape"
+apt-get install -y -qq inkscape > /dev/null 2>&1
 
 echo "[+] Setting up Sublist3r"
 apt-get install -y -qq sublist3r > /dev/null 2>&1
@@ -54,7 +58,7 @@ echo "[+] Installing Proxmark tools"
 apt-get install -y -qq --no-install-recommends git ca-certificates build-essential pkg-config libcanberra-gtk-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev libbz2-dev libbluetooth-dev > /dev/null
 
 mkdir /usr/share/proxmark3
-wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
+wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip > /dev/null 2>&1
 unzip -qq v4.13441.zip -d /usr/share/proxmark3
 cd /usr/share/proxmark3/proxmark3-4.13441/
 make clean
@@ -74,5 +78,5 @@ echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html
 mv fsse_bookmarks.html /home/kali/Desktop/
 
-echo "[+] Your system has been set up!"
+echo "[+] Your system has been set up! Don't forget to import your bookmarks (on your Desktop) into Firefox!"
 
