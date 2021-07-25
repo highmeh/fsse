@@ -61,9 +61,9 @@ mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip > /dev/null 2>&1
 unzip -qq v4.13441.zip -d /usr/share/proxmark3
 cd /usr/share/proxmark3/proxmark3-4.13441/
-make clean
-make -j
-make install
+make clean > /dev/null 2>&1
+make -j > /dev/null 2>&1
+make install > /dev/null 2>&1
 cd /home/kali/
 
 echo "[+] Installing urlcrazy"
@@ -75,7 +75,7 @@ chmod +x /usr/share/ct-exposer/ct-exposer.py
 ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer | tee -a /home/kali/.zshrc
 
 echo "[+] Downloading bookmarks"
-wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html
+wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /dev/null 2>&1
 mv fsse_bookmarks.html /home/kali/Desktop/
 
 echo "[+] Your system has been set up! Don't forget to import your bookmarks (on your Desktop) into Firefox!"
