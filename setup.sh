@@ -47,7 +47,7 @@ libcanberra-gtk-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-d
 mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
 unzip v4.13441.zip -d /usr/share/proxmark3
-cd /usr/share/proxmark3
+cd /usr/share/proxmark3/proxmark3-4.13441/
 make clean 
 make -j
 make install
@@ -58,7 +58,7 @@ apt-get install -y urlcrazy > /dev/null
 echo "[+] Setting up ct-exposer"
 git clone https://github.com/chris408/ct-exposer.git /usr/share/ct-exposer > /dev/null
 chmod +x /usr/share/ct-exposer/ct-exposer.py
-ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/ct-exposer | tee -a /home/kali/.profile
+ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer | tee -a /home/kali/.profile
 echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html
 echo "[+] Your system has been set up!"
