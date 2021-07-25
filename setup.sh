@@ -18,14 +18,11 @@ echo ""
 echo "[+] Updating OS..."
 apt-get update -y > /dev/null
 echo "[+] Installing tools from apt..."
-apt-get install -y tmux vim golang python3-dev git python3 python3-pip >/dev/null
-wait
-echo "[+] Installing Docker"
-apt-get install -y docker.io > /dev/null
+apt-get install -qq -y tmux vim golang python3-dev git python3 python3-pip >/dev/null
 echo "[+] Setting up GoReport"
 git clone https://github.com/chrismaddalena/Goreport.git /usr/share/Goreport > /dev/null
 pip3 install -r /usr/share/Goreport/requirements.txt > /dev/null
-ln -s /usr/share/Goreport/Goreport.py /usr/local/bin/GoReport | tee -a /home/kali/.profile
+ln -s /usr/share/Goreport/GoReport.py /usr/local/bin/GoReport | tee -a /home/kali/.profile
 echo "[+] Setting up DomainHunter"
 git clone https://github.com/threatexpress/domainhunter.git /usr/share/domainhunter > /dev/null
 pip3 install -r /usr/share/domainhunter/requirements.txt > /dev/null
@@ -33,26 +30,26 @@ echo "[+] Settting up Lure"
 git clone https://github.com/highmeh/lure.git /usr/share/lure > /dev/null
 pip3 install -r /usr/share/lure/requirements.txt > /dev/null
 ln -s /usr/share/lure/lure.py /usr/local/bin/lure | tee -a /home/kali/.profile
+cp /usr/share/lure/resources/config.sample.py /usr/share/lure/resources/config.py
 echo "[+] Setting up SublimeText"
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add -
 echo "deb https://download.sublimetext.com/ apt/stable/" | tee -a /etc/apt/sources.list.d/sublime-text.list
-apt-get install -y sublime-text > /dev/null
+apt-get install -y -qq sublime-text > /dev/null
 echo "[+] Setting up Eyewitness"
-apt-get install -y eyewitness > /dev/null
+apt-get install -y -qq eyewitness > /dev/null
 echo "[+] Setting up Sublist3r"
-apt-get install -y sublist3r > /dev/null
+apt-get install -y -qq sublist3r > /dev/null
 echo "[+] Installing Proxmark tools"
-apt-get install -y --no-install-recommends git ca-certificates build-essential pkg-config \
+apt-get install -y -qq --no-install-recommends git ca-certificates build-essential pkg-config \
 libcanberra-gtk-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev libbz2-dev libbluetooth-dev > /dev/null
 mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
 unzip v4.13441.zip -d /usr/share/proxmark3
 cd /usr/share/proxmark3/proxmark3-4.13441/
-make clean 
-make -j
-make install
-make install
-cd ~/
+make clean > /dev/null 2>&1
+make -j > /dev/null 2>&1
+make install > /dev/null 2>&1
+cd /home/kali/
 echo "[+] Installing urlcrazy"
 apt-get install -y urlcrazy > /dev/null
 echo "[+] Setting up ct-exposer"
