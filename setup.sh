@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/env bash 
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
@@ -19,6 +19,7 @@ echo "[+] Updating OS..."
 apt-get update -y > /dev/null
 echo "[+] Installing tools from apt..."
 apt-get install -y tmux vim golang python3-dev git python3 python3-pip >/dev/null
+wait
 echo "[+] Installing Docker"
 apt-get install -y docker.io > /dev/null
 echo "[+] Setting up GoReport"
@@ -47,8 +48,10 @@ mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
 unzip v4.13441.zip -d /usr/share/proxmark3
 cd /usr/share/proxmark3
-make clean >/dev/null && make -j > /dev/null && make install > /dev/null
-make install > /dev/null
+make clean 
+make -j
+make install
+make install
 cd ~/
 echo "[+] Installing urlcrazy"
 apt-get install -y urlcrazy > /dev/null
