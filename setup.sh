@@ -39,8 +39,9 @@ ln -s /usr/share/lure/lure.py /usr/local/bin/lure | tee -a /home/kali/.zshrc
 cp /usr/share/lure/resources/config.sample.py /usr/share/lure/resources/config.py
 
 echo "[+] Setting up SublimeText"
-wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add -
-echo "deb https://download.sublimetext.com/apt/stable/" | tee -a /etc/apt/sources.list.d/sublime-text.list
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+echo "deb https://download.sublimetext.com/ apt/stable/" | tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
 apt-get install -y -qq sublime-text > /dev/null 2>&1
 
 echo "[+] Setting up Eyewitness"
@@ -54,7 +55,7 @@ apt-get install -y -qq --no-install-recommends git ca-certificates build-essenti
 
 mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
-unzip v4.13441.zip -qq -d /usr/share/proxmark3
+unzip -qq v4.13441.zip -d /usr/share/proxmark3
 cd /usr/share/proxmark3/proxmark3-4.13441/
 make clean
 make -j
