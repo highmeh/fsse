@@ -54,11 +54,11 @@ apt-get install -y -qq --no-install-recommends git ca-certificates build-essenti
 
 mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
-unzip v4.13441.zip -d /usr/share/proxmark3
+unzip v4.13441.zip -qq -d /usr/share/proxmark3
 cd /usr/share/proxmark3/proxmark3-4.13441/
-make clean > /dev/null 2>&1
-make -j > /dev/null 2>&1
-make install > /dev/null 2>&1
+make clean
+make -j
+make install
 cd /home/kali/
 
 echo "[+] Installing urlcrazy"
@@ -71,7 +71,7 @@ ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer | tee -a /ho
 
 echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html
-mv fsse_bookmarks /home/kali/Desktop/
+mv fsse_bookmarks.html /home/kali/Desktop/
 
 echo "[+] Your system has been set up!"
 
