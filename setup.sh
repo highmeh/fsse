@@ -50,8 +50,7 @@ echo "[+] Setting up Sublist3r"
 apt-get install -y -qq sublist3r > /dev/null 2>&1
 
 echo "[+] Installing Proxmark tools"
-apt-get install -y -qq --no-install-recommends git ca-certificates build-essential pkg-config \
-libcanberra-gtk-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev libbz2-dev libbluetooth-dev > /dev/null 2>&1
+apt-get install -y -qq --no-install-recommends git ca-certificates build-essential pkg-config libcanberra-gtk-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev libbz2-dev libbluetooth-dev > /dev/null
 
 mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
@@ -74,6 +73,5 @@ echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html
 mv fsse_bookmarks /home/kali/Desktop/
 
-source /home/kali/.zshrc
 echo "[+] Your system has been set up!"
 
