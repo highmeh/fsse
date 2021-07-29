@@ -21,7 +21,7 @@ echo "[+] Updating OS..."
 apt-get update -y > /dev/null 2>&1
 
 echo "[+] Installing tools from apt..."
-apt-get install -qq -y tmux vim golang python3-dev git python3 python3-pip > /dev/null 2>&1
+apt-get install -qq -y tmux apache2 php libapache2-mod-php vim golang python3-dev git python3 python3-pip > /dev/null 2>&1
 
 echo "[+] Setting up GoReport"
 git clone https://github.com/chrismaddalena/Goreport.git /usr/share/Goreport > /dev/null 2>&1
@@ -69,6 +69,18 @@ cd /home/kali/
 echo "[+] Installing urlcrazy"
 apt-get install -y urlcrazy > /dev/null 2>&1
 
+echo "[+] Installing Mindomo Mind Mapper"
+mkdir /opt/mindomo
+wget https://www.mindomo.com/download/9.5/Mindomo_v.9.5.8_x64.AppImage -O /opt/mindomo/mindomo.AppImage
+chmod +x /opt/mindomo/mindomo.AppImage
+ln -s /opt/mindomo/mindomo.AppImage /usr/local/bin/mindomo
+
+echo "[+] Installing Joplin"
+mkdir /opt/joplin/
+wget https://github.com/laurent22/joplin/releases/download/v2.1.9/Joplin-2.1.9.AppImage -O /opt/joplin/joplin.AppImage
+chmod +x /opt/joplin/joplin.AppImage
+ln -s /opt/joplin/joplin.AppImage /usr/local/bin/joplin
+
 echo "[+] Setting up ct-exposer"
 git clone https://github.com/chris408/ct-exposer.git /usr/share/ct-exposer > /dev/null 2>&1
 chmod +x /usr/share/ct-exposer/ct-exposer.py
@@ -77,6 +89,12 @@ ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer | tee -a /ho
 echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /dev/null 2>&1
 mv fsse_bookmarks.html /home/kali/Desktop/
+
+echo "[+] Downloading HTML Resources"
+rm /var/www/html/*
+wget https://github.com/highmeh/fsse/index.html -O /var/www/html/index.html > /dev/null 2>&1
+wget https://github.com/highmeh/fsse/post.php -O /var/www/html/index.html > /dev/null 2>&1
+service apache2 start
 
 echo "[+] Your system has been set up! Don't forget to import your bookmarks (on your Desktop) into Firefox!"
 
