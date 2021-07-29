@@ -86,6 +86,9 @@ git clone https://github.com/chris408/ct-exposer.git /usr/share/ct-exposer > /de
 chmod +x /usr/share/ct-exposer/ct-exposer.py
 ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer | tee -a /home/kali/.zshrc
 
+echo "[+] Setting up Bad-PDF"
+git clone https://github.com/deepzec/Bad-Pdf /usr/share/badpdf/ > /dev/null 2>&1
+
 echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /dev/null 2>&1
 mv fsse_bookmarks.html /home/kali/Desktop/
