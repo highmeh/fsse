@@ -71,13 +71,13 @@ apt-get install -y urlcrazy > /dev/null 2>&1
 
 echo "[+] Installing Mindomo Mind Mapper"
 mkdir /opt/mindomo
-wget https://www.mindomo.com/download/9.5/Mindomo_v.9.5.8_x64.AppImage -O /opt/mindomo/mindomo.AppImage
+wget https://www.mindomo.com/download/9.5/Mindomo_v.9.5.8_x64.AppImage -O /opt/mindomo/mindomo.AppImage > /dev/null 2>&1
 chmod +x /opt/mindomo/mindomo.AppImage
 ln -s /opt/mindomo/mindomo.AppImage /usr/local/bin/mindomo
 
 echo "[+] Installing Joplin"
 mkdir /opt/joplin/
-wget https://github.com/laurent22/joplin/releases/download/v2.1.9/Joplin-2.1.9.AppImage -O /opt/joplin/joplin.AppImage
+wget https://github.com/laurent22/joplin/releases/download/v2.1.9/Joplin-2.1.9.AppImage -O /opt/joplin/joplin.AppImage > /dev/null 2>&1
 chmod +x /opt/joplin/joplin.AppImage
 ln -s /opt/joplin/joplin.AppImage /usr/local/bin/joplin
 
@@ -92,8 +92,8 @@ mv fsse_bookmarks.html /home/kali/Desktop/
 
 echo "[+] Downloading HTML Resources"
 rm /var/www/html/*
-wget https://github.com/highmeh/fsse/index.html -O /var/www/html/index.html > /dev/null 2>&1
-wget https://github.com/highmeh/fsse/post.php -O /var/www/html/index.html > /dev/null 2>&1
+wget https://raw.githubusercontent.com/highmeh/fsse/main/index.html -O /var/www/html/index.html > /dev/null 2>&1
+wget https://raw.githubusercontent.com/highmeh/fsse/main/post.php -O /var/www/html/post.php > /dev/null 2>&1
 service apache2 start
 
 echo "[+] Your system has been set up! Don't forget to import your bookmarks (on your Desktop) into Firefox!"
