@@ -59,7 +59,7 @@ apt-get install -y -qq --no-install-recommends git ca-certificates build-essenti
 
 mkdir /usr/share/proxmark3
 wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip > /dev/null 2>&1
-unzip -qq v4.13441.zip -d /usr/share/proxmark3
+unzip -qq v4.13441.zip -d /usr/share/proxmark3 > /dev/null 2>&1
 cd /usr/share/proxmark3/proxmark3-4.13441/
 make clean > /dev/null 2>&1
 make -j > /dev/null 2>&1
