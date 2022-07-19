@@ -5,7 +5,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-echo "[!] This script will install tools needed for FSSE 2021"
+echo "[!] This script will install tools needed for FSSE 2022"
 echo "[!] If you've already installed these tools, this may cause issues."
 read -p "[?] Continue? [Y/n]? " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]
