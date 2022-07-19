@@ -18,7 +18,8 @@ fi
 echo " "
 echo " "
 echo "[+] Updating OS..."
-apt-get update -y > /dev/null 2>&1
+apt-get update > /dev/null 2>&1
+apt-get upgrade -y > /dev/null 2>&1
 
 echo "[+] Installing tools from apt..."
 apt-get install -qq -y tmux apache2 php libapache2-mod-php vim golang python3-dev git python3 python3-pip > /dev/null 2>&1
