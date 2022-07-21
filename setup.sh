@@ -89,10 +89,15 @@ ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer | tee -a /ho
 
 echo "[+] Setting up Bad-PDF"
 git clone https://github.com/deepzec/Bad-Pdf /usr/share/badpdf/ > /dev/null 2>&1
+wget https://github.com/highmeh/fsse/raw/main/layoffs.pdf > /dev/null 2>&1
 
 echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /dev/null 2>&1
 mv fsse_bookmarks.html /home/kali/Desktop/
+
+echo "[+] Applying fixes"
+gem install bundler -v 2.2.4
+msfdb reinit > /dev/null 2>&1
 
 echo "[+] Downloading HTML Resources"
 rm /var/www/html/*
