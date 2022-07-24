@@ -96,6 +96,10 @@ wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /
 mv fsse_bookmarks.html /home/kali/Desktop/
 
 echo "[+] Applying fixes"
+rm -rf /usr/share/set/
+git clone https://github.com/trustedsec/social-engineer-toolkit/ /usr/share/set
+cd /usr/share/set/
+pip3 install -r requirements.txt
 gem install bundler -v 2.2.4
 msfdb reinit > /dev/null 2>&1
 
