@@ -6,7 +6,8 @@ if [ "$EUID" -ne 0 ]
 fi
 
 echo "[!] This script will install tools needed for FSSE 2022"
-echo "[!] If you've already installed these tools, this may cause issues."
+echo "[!] Please make sure you have a user called 'kali' on this system before proceeding."
+echo "[!] Note: If you've already installed these tools, this may cause issues."
 read -p "[?] Continue? [Y/n]? " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
@@ -36,15 +37,15 @@ pip3 install -r /usr/share/domainhunter/requirements.txt > /dev/null 2>&1
 echo "[+] Settting up Lure"
 git clone https://github.com/highmeh/lure.git /usr/share/lure > /dev/null 2>&1
 pip3 install -r /usr/share/lure/requirements.txt > /dev/null 2>&1
-ln -s /usr/share/lure/lure.py /usr/local/bin/lure | tee -a /home/kali/.zshrc
+ln -s /usr/share/lure/lure.py /usr/local/bin/lure
 cp /usr/share/lure/resources/config.sample.py /usr/share/lure/resources/config.py
 
 echo "[+] Setting up SublimeText"
-wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-echo "deb https://download.sublimetext.com/ apt/stable/" | tee /etc/apt/sources.list.d/sublime-text.list
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add - > /dev/null 2>&1
+echo "deb https://download.sublimetext.com/ apt/stable/" > /etc/apt/sources.list.d/sublime-text.list
 sudo apt-get update -y > /dev/null 2>&1
 apt-get install -y -qq sublime-text > /dev/null 2>&1
-ln -s /opt/sublime_text/sublime_text /usr/local/bin/sublimetext | tee -a /home/kali/.zshrc
+ln -s /opt/sublime_text/sublime_text /usr/local/bin/sublimetext
 
 echo "[+] Setting up Eyewitness"
 apt-get install -y -qq eyewitness > /dev/null 2>&1
@@ -85,7 +86,7 @@ ln -s /opt/joplin/joplin.AppImage /usr/local/bin/joplin
 echo "[+] Setting up ct-exposer"
 git clone https://github.com/chris408/ct-exposer.git /usr/share/ct-exposer > /dev/null 2>&1
 chmod +x /usr/share/ct-exposer/ct-exposer.py
-ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer | tee -a /home/kali/.zshrc
+ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer
 
 echo "[+] Setting up Bad-PDF"
 git clone https://github.com/deepzec/Bad-Pdf /usr/share/badpdf/ > /dev/null 2>&1
@@ -97,10 +98,10 @@ mv fsse_bookmarks.html /home/kali/Desktop/
 
 echo "[+] Applying fixes"
 rm -rf /usr/share/set/
-git clone https://github.com/trustedsec/social-engineer-toolkit/ /usr/share/set
+git clone https://github.com/trustedsec/social-engineer-toolkit/ /usr/share/set > /dev/null 2>&1
 cd /usr/share/set/
-pip3 install -r requirements.txt
-gem install bundler -v 2.2.4
+pip3 install -r requirements.txt > /dev/null 2>&1
+gem install bundler -v 2.2.4 > /dev/null 2>&1
 msfdb reinit > /dev/null 2>&1
 
 echo "[+] Downloading HTML Resources"
