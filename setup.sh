@@ -87,6 +87,12 @@ wget https://github.com/laurent22/joplin/releases/download/v2.1.9/Joplin-2.1.9.A
 chmod +x /opt/joplin/joplin.AppImage
 ln -s /opt/joplin/joplin.AppImage /usr/local/bin/joplin
 
+echo "[+] Installing catphish"
+git clone https://github.com/ring0lab/catphish /usr/share/catphish > /dev/null 2>&1
+cd /usr/share/catphish
+bundle install > /dev/null 2>&1
+cd /home
+
 echo "[+] Setting up ct-exposer"
 git clone https://github.com/highmeh/ct-exposer /usr/share/ct-exposer > /dev/null 2>&1
 chmod +x /usr/share/ct-exposer/ct-exposer.py
