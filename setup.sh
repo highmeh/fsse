@@ -56,6 +56,10 @@ apt-get install -y -qq inkscape > /dev/null 2>&1
 echo "[+] Setting up Sublist3r"
 apt-get install -y -qq sublist3r > /dev/null 2>&1
 
+echo "[+] Setting up Sherlock"
+git clone https://github.com/sherlock-project/sherlock /usr/share/sherlock > /dev/null 2>&1
+pip3 install -r /usr/share/sherlock/requirements.txt > /dev/null 2>&1
+
 echo "[+] Installing Proxmark tools"
 apt-get install -y -qq --no-install-recommends git ca-certificates build-essential pkg-config libcanberra-gtk-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev libbz2-dev libbluetooth-dev > /dev/null
 
