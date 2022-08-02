@@ -88,8 +88,9 @@ chmod +x /opt/joplin/joplin.AppImage
 ln -s /opt/joplin/joplin.AppImage /usr/local/bin/joplin
 
 echo "[+] Setting up ct-exposer"
-git clone https://github.com/chris408/ct-exposer.git /usr/share/ct-exposer > /dev/null 2>&1
+git clone https://github.com/highmeh/ct-exposer /usr/share/ct-exposer > /dev/null 2>&1
 chmod +x /usr/share/ct-exposer/ct-exposer.py
+pip3 install -r /usr/share/ct-exposer/requirements.txt > /dev/null 2>&1
 ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer
 
 echo "[+] Setting up Bad-PDF"
