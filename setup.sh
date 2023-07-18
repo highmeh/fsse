@@ -5,7 +5,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-echo "[!] This script will install tools needed for FSSE 2022"
+echo "[!] This script will install tools needed for FSSE 2023"
 echo "[!] Please make sure you have a user called 'kali' on this system before proceeding."
 echo "[!] Note: If you've already installed these tools, this may cause issues."
 read -p "[?] Continue? [Y/n]? " -n 1 -r
@@ -102,10 +102,12 @@ ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer
 echo "[+] Setting up Bad-PDF"
 git clone https://github.com/deepzec/Bad-Pdf /usr/share/badpdf/ > /dev/null 2>&1
 wget https://github.com/highmeh/fsse/raw/main/layoffs.pdf > /dev/null 2>&1
+wget https://raw.githubusercontent.com/highmeh/fsse/main/layoffs.pdf -O /home/kali/layoffs.pdf > /dev/null 2>&1
 
 echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /dev/null 2>&1
 mv fsse_bookmarks.html /home/kali/Desktop/
+chmod 777 ~/Desktop/fsse_bookmarks.html
 
 echo "[+] Applying fixes"
 rm -rf /usr/share/set/
