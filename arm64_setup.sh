@@ -100,7 +100,7 @@ wget https://github.com/highmeh/fsse/raw/main/layoffs.pdf > /dev/null 2>&1
 echo "[+] Downloading bookmarks"
 wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /dev/null 2>&1
 mv fsse_bookmarks.html /home/kali/Desktop/
-chmod 777 ~/Desktop/fsse_bookmarks.html
+chmod 777 /home/kali/Desktop/fsse_bookmarks.html
 
 echo "[+] Applying fixes"
 rm -rf /usr/share/set/
