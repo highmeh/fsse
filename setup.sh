@@ -20,10 +20,10 @@ echo " "
 echo " "
 echo "[+] Updating OS..."
 apt-get update > /dev/null 2>&1
-apt-get upgrade -y > /dev/null 2>&1
+apt-get upgrade -y
 
 echo "[+] Installing tools from apt..."
-apt-get install -qq -y tmux apache2 php libapache2-mod-php vim golang python3-dev git python3 python3-pip metasploit-framework > /dev/null 2>&1
+apt-get install -qq -y tmux apache2 php libapache2-mod-php vim golang python3-dev git python3 python3-pip metasploit-framework
 
 echo "[+] Setting up GoReport"
 git clone https://github.com/chrismaddalena/Goreport.git /usr/share/Goreport > /dev/null 2>&1
