@@ -9,6 +9,6 @@ done
 while read i; 
 do
         echo Screenshotting: $i
-        cutycapt --url=https://$i --out=$i.jpg --max-wait=1
+        cutycapt --url=https://$i --out=$i.jpg --max-wait=5
 done < $filename
 
