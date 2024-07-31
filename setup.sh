@@ -1,11 +1,11 @@
 #!/bin/env bash 
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
-  exit
+if [ "$USER" != "kali" ]
+  then echo "This script must be run as the 'kali' user. Do not run with sudo, we will ask permission when we need. You will need to enter your password when prompted."
+  exit 1
 fi
 
-echo "[!] This script will install tools needed for FSSE 2023"
+echo "[!] This script will install tools needed for FSSE 2024"
 echo "[!] Please make sure you have a user called 'kali' on this system before proceeding."
 echo "[!] Note: If you've already installed these tools, this may cause issues."
 read -p "[?] Continue? [Y/n]? " -n 1 -r
@@ -19,109 +19,138 @@ fi
 echo " "
 echo " "
 echo "[+] Updating OS..."
-apt-get update > /dev/null 2>&1
-apt-get upgrade -y
+sudo apt-get update 
+sudo apt-get install -y gpg gpg-agent gpgconf gnupg
+sudo apt-get upgrade -y && sudo apt dist-upgrade -y && sudo apt full-upgrade -y && sudo apt auto-remove -y
 
 echo "[+] Installing tools from apt..."
-apt-get install -qq -y tmux apache2 php libapache2-mod-php vim golang python3-dev git python3 python3-pip metasploit-framework
+sudo apt-get install -qq -y tmux apache2 php libapache2-mod-php vim golang python3-dev git python3 python3-pip metasploit-framework python3-virtualenv
 
 echo "[+] Setting up GoReport"
-git clone https://github.com/chrismaddalena/Goreport.git /usr/share/Goreport > /dev/null 2>&1
-pip3 install -r /usr/share/Goreport/requirements.txt > /dev/null 2>&1
-ln -s /usr/share/Goreport/GoReport.py /usr/local/bin/GoReport | tee -a /home/kali/.zshrc
+virtualenv /home/kali/.Goreport_virtualenv
+source /home/kali/.Goreport_virtualenv/bin/activate
+cd /home/kali
+git clone https://github.com/chrismaddalena/Goreport.git
+cd /home/kali/Goreport
+pip3 install -r requirements.txt
+echo 'Goreport() { source /home/kali/.Goreport_virtualenv/bin/activate ; cd /home/kali/Goreport; ./GoReport.py "$@" ; deactivate ; cd /home/kali ; }' | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+echo "alias goreport='Goreport'" | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+echo "alias GoReport='Goreport'" | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+deactivate
 
 echo "[+] Setting up DomainHunter"
-git clone https://github.com/threatexpress/domainhunter.git /usr/share/domainhunter > /dev/null 2>&1
-pip3 install -r /usr/share/domainhunter/requirements.txt > /dev/null 2>&1
+virtualenv /home/kali/.DomainHunter_virtualenv
+source /home/kali/.DomainHunter_virtualenv/bin/activate
+cd /home/kali
+git clone https://github.com/threatexpress/domainhunter.git
+cd /home/kali/domainhunter
+pip3 install -r requirements.txt
+echo 'domainhunter() { source /home/kali/.DomainHunter_virtualenv/bin/activate ; cd /home/kali/domainhunter; ./domainhunter.py "$@" ; deactivate ; cd /home/kali ; }' | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+echo "alias Domainhunter='domainhunter'" | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+echo "alias DomainHunter='domainhunter'" | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+deactivate
+chmod u+x /home/kali/domainhunter/domainhunter.py
 
-echo "[+] Settting up Lure"
-git clone https://github.com/highmeh/lure.git /usr/share/lure > /dev/null 2>&1
-pip3 install -r /usr/share/lure/requirements.txt > /dev/null 2>&1
-ln -s /usr/share/lure/lure.py /usr/local/bin/lure
-cp /usr/share/lure/resources/config.sample.py /usr/share/lure/resources/config.py
 
-echo "[+] Setting up SublimeText"
-wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add - > /dev/null 2>&1
-echo "deb https://download.sublimetext.com/ apt/stable/" > /etc/apt/sources.list.d/sublime-text.list
-sudo apt-get update -y > /dev/null 2>&1
-apt-get install -y -qq sublime-text > /dev/null 2>&1
-ln -s /opt/sublime_text/sublime_text /usr/local/bin/sublimetext
+echo "[+] Setting up Lure"
+virtualenv /home/kali/.lure_virtualenv
+source /home/kali/.lure_virtualenv/bin/activate
+cd /home/kali
+git clone https://github.com/highmeh/lure.git /home/kali/lure
+cd /home/kali/lure
+pip3 install -r /home/kali/lure/requirements.txt
+cp /home/kali/lure/resources/config.sample.py /home/kali/lure/resources/config.py
+echo 'lure() { source /home/kali/.lure_virtualenv/bin/activate ; cd /home/kali/lure; ./lure.py "$@" ; deactivate ; cd /home/kali ; }' | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+
+echo "[+] Setting up SublimeText" 
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add - 
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee -a /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update -y 
+sudo apt-get install -y -qq sublime-text 
+#ln -s /opt/sublime_text/sublime_text /usr/local/bin/sublimetext
+echo "alias sublimetext='/opt/sublime_text/sublime_text --detached'" | tee -a ~/.bashrc >> ~/.zshrc
 
 echo "[+] Setting up Eyewitness"
-apt-get install -y -qq eyewitness > /dev/null 2>&1
+sudo apt-get install -y -qq eyewitness 
 
 echo "[+] Setting up Inkscape"
-apt-get install -y -qq inkscape > /dev/null 2>&1
+sudo apt-get install -y -qq inkscape 
 
 echo "[+] Setting up Sublist3r"
-apt-get install -y -qq sublist3r > /dev/null 2>&1
+sudo apt-get install -y -qq sublist3r 
 
 echo "[+] Setting up Sherlock"
-git clone https://github.com/sherlock-project/sherlock /usr/share/sherlock > /dev/null 2>&1
-pip3 install -r /usr/share/sherlock/requirements.txt > /dev/null 2>&1
+sudo apt-get install -y -qq sherlock
 
 echo "[+] Installing Proxmark tools"
-apt-get install -y -qq --no-install-recommends git ca-certificates build-essential pkg-config libcanberra-gtk-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev libbz2-dev libbluetooth-dev > /dev/null
-
-mkdir /usr/share/proxmark3
-wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip > /dev/null 2>&1
-unzip -qq v4.13441.zip -d /usr/share/proxmark3 > /dev/null 2>&1
-cd /usr/share/proxmark3/proxmark3-4.13441/
-make clean > /dev/null 2>&1
-make -j > /dev/null 2>&1
-make install > /dev/null 2>&1
+sudo apt-get install -y -qq --no-install-recommends git ca-certificates build-essential pkg-config libcanberra-gtk3-module libreadline-dev gcc-arm-none-eabi libnewlib-dev qtbase5-dev libbz2-dev libbluetooth-dev 
+mkdir /home/kali/proxmark3
+wget https://github.com/RfidResearchGroup/proxmark3/archive/refs/tags/v4.13441.zip
+unzip -qq v4.13441.zip -d /home/kali/proxmark3
+cd /home/kali/proxmark3/proxmark3-4.13441/
+make clean
+make -j
+sudo make install
 cd /home/kali/
 
 echo "[+] Installing urlcrazy"
-apt-get install -y urlcrazy > /dev/null 2>&1
+sudo apt-get install -y urlcrazy
 
 echo "[+] Installing Mindomo Mind Mapper"
-mkdir /opt/mindomo
-wget https://www.mindomo.com/download/9.5/Mindomo_v.9.5.8_x64.AppImage -O /opt/mindomo/mindomo.AppImage > /dev/null 2>&1
-chmod +x /opt/mindomo/mindomo.AppImage
-ln -s /opt/mindomo/mindomo.AppImage /usr/local/bin/mindomo
+sudo mkdir /opt/mindomo
+#wget https://www.mindomo.com/download/9.5/Mindomo_v.9.5.8_x64.AppImage -O /opt/mindomo/mindomo.AppImage > /dev/null 2>&1
+sudo wget https://www.mindomo.com/download/10.9/Mindomo_v.10.9.3_x64.AppImage -O /opt/mindomo/mindomo.AppImage
+sudo chmod +x /opt/mindomo/mindomo.AppImage
+sudo ln -s /opt/mindomo/mindomo.AppImage /usr/local/bin/mindomo
 
 echo "[+] Installing Joplin"
-mkdir /opt/joplin/
-wget https://github.com/laurent22/joplin/releases/download/v2.1.9/Joplin-2.1.9.AppImage -O /opt/joplin/joplin.AppImage > /dev/null 2>&1
-chmod +x /opt/joplin/joplin.AppImage
-ln -s /opt/joplin/joplin.AppImage /usr/local/bin/joplin
+sudo apt-get install joplin -qq -y
 
 echo "[+] Installing catphish"
-git clone https://github.com/ring0lab/catphish /usr/share/catphish > /dev/null 2>&1
-cd /usr/share/catphish
-bundle install > /dev/null 2>&1
-cd /home
+git clone https://github.com/ring0lab/catphish /home/kali/catphish
+cd /home/kali/catphish
+sudo apt install -qq -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker kali
+newgrp docker <<EONG
+   cd /home/kali/catphish   
+   docker build -t catphish:latest .
+EONG
+echo 'catphish() { cd /home/kali/catphish; sudo docker run --rm -it catphish:latest "$@" ; cd /home/kali ; }' | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+cd /home/kali
 
 echo "[+] Setting up ct-exposer"
-git clone https://github.com/highmeh/ct-exposer /usr/share/ct-exposer > /dev/null 2>&1
-chmod +x /usr/share/ct-exposer/ct-exposer.py
-pip3 install -r /usr/share/ct-exposer/requirements.txt > /dev/null 2>&1
+virtualenv /home/kali/.ct-exposer_virtualenv
+source /home/kali/.ct-exposer_virtualenv/bin/activate
+cd /home/kali
+git clone https://github.com/highmeh/ct-exposer /home/kali/ct-exposer
+chmod +x /home/kali/ct-exposer/ct-exposer.py
+cd /home/kali/ct-exposer
+pip3 install -r /home/kali/ct-exposer/requirements.txt
 ln -s /usr/share/ct-exposer/ct-exposer.py /usr/local/bin/ct-exposer
+echo 'ct-exposer() { source /home/kali/.ct-exposer_virtualenv/bin/activate ; cd /home/kali/ct-exposer; ./ct-exposer.py "$@" ; deactivate ; cd /home/kali ; }' | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
 
 echo "[+] Setting up Bad-PDF"
-git clone https://github.com/deepzec/Bad-Pdf /usr/share/badpdf/ > /dev/null 2>&1
-wget https://github.com/highmeh/fsse/raw/main/layoffs.pdf > /dev/null 2>&1
-wget https://raw.githubusercontent.com/highmeh/fsse/main/layoffs.pdf -O /home/kali/layoffs.pdf > /dev/null 2>&1
+cd /home/kali
+git clone https://github.com/deepzec/Bad-Pdf /home/kali/badpdf/ 
+wget https://github.com/highmeh/fsse/raw/main/layoffs.pdf 
+#wget https://raw.githubusercontent.com/highmeh/fsse/main/layoffs.pdf -O /home/kali/layoffs.pdf 
+echo 'badpdf () { cd /home/kali/badpdf ; python2 badpdf.py "$@" ; cd /home/kali ; } ' | tee -a /home/kali/.bashrc >> /home/kali/.zshrc
+#!/bin/bash
 
 echo "[+] Downloading bookmarks"
-wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html > /dev/null 2>&1
-mv fsse_bookmarks.html /home/kali/Desktop/
-chmod 777 ~/Desktop/fsse_bookmarks.html
+cd /home/kali/Desktop/
+wget https://raw.githubusercontent.com/highmeh/fsse/main/fsse_bookmarks.html
 
 echo "[+] Applying fixes"
-rm -rf /usr/share/set/
-git clone https://github.com/trustedsec/social-engineer-toolkit/ /usr/share/set > /dev/null 2>&1
-cd /usr/share/set/
-pip3 install -r requirements.txt > /dev/null 2>&1
-gem install bundler -v 2.2.4 > /dev/null 2>&1
-msfdb reinit > /dev/null 2>&1
+sudo msfdb init 
 
 echo "[+] Downloading HTML Resources"
-rm /var/www/html/*
-wget https://raw.githubusercontent.com/highmeh/fsse/main/index.html -O /var/www/html/index.html > /dev/null 2>&1
-wget https://raw.githubusercontent.com/highmeh/fsse/main/post.php -O /var/www/html/post.php > /dev/null 2>&1
-service apache2 start
+sudo rm /var/www/html/*
+sudo wget https://raw.githubusercontent.com/highmeh/fsse/main/index.html -O /var/www/html/index.html 
+sudo wget https://raw.githubusercontent.com/highmeh/fsse/main/post.php -O /var/www/html/post.php 
+sudo systemctl start apache2 
 
 echo "[+] Your system has been set up! Don't forget to import your bookmarks (on your Desktop) into Firefox!"
 
